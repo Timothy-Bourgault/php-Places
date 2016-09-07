@@ -10,30 +10,24 @@
 
     $app = new Silex\Application();
 
-    $app->get("/", function() {
+    $app->register(new Silex\Provider\TwigServiceProvider(), array(
+        'twig.path' => __DIR__.'/../views'
+    ));
 
-        $output = "";
-
-        foreach (Place::getAll() as $place) {
-            $output .= "<p>" . $place->getCity() . "</p>";
-        }
-
-        $output .= "
-            <form action='/places' method='post'>
-                <label for='city'>Enter City</label>
-                <input id='city' name='city' type='text'>
-
-                <button type='submit'>Add Place</button>
-            </form>
-        ";
-
-
-    return $output;
+    $app->get("/", function() use ($app) {
+        return $app['twig']->render('places_html.twig', array('places' => Place::getAll()));
     });
 
+    $app->post("/places", function() use ($app) {
+        $place = new Place($_POST['city']);
+        $place->save();
+        return $app['twig']->render('create_place.html.twig', array('newplace' => $place ));
+    });
 
-
-
+    $app->post("/delete_places", function() use ($app) {
+        Place::deleteAll();
+        return $app['twig']->render('delete_places.html.twig');
+    });
 
     return $app;
 ?>
