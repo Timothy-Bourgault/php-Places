@@ -13,16 +13,28 @@
                 <p>Here Are the Places You've Been:</p>
                 <ul>
                     {% for place in places %}
-                        <li>{{ place.getCity }}</li>
+                        <hr>
+                        <li>
+                        <h4>{{ place.getCity }}</h4>
+                        <p>People should see: {{ place.getMustSee }} </p>
+                        <p>Stayed for: {{ place.getHowLong }} days </p>
+                        <hr>
+                        </li>
                     {% endfor %}
                 </ul>
 
             {% endif %}
 
             <form action='/places' method='post'>
-                <label for='city'>Enter City</label>
+                <label for='city'>Enter City:</label>
                 <input id='city' name='city' type='text'>
-
+                <br />
+                <label for='must_see'>Enter Something People Must See When Visiting:</label>
+                <input id='must_see' name='must_see' type='text'>
+                <br />
+                <label for='how_long'>Enter How Many Days You Visited For:</label>
+                <input id='how_long' name='how_long' type='text'>
+                <br />
                 <button type='submit'>Add Place</button>
             </form>
             <form action='/delete_places' method='post'>

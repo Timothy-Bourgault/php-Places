@@ -19,7 +19,7 @@
     });
 
     $app->post("/places", function() use ($app) {
-        $place = new Place($_POST['city']);
+        $place = new Place($_POST['city'], $_POST['must_see'], $_POST['how_long']);
         $place->save();
         return $app['twig']->render('create_place.html.twig', array('newplace' => $place ));
     });
@@ -30,4 +30,5 @@
     });
 
     return $app;
+
 ?>
